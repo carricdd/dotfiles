@@ -1,0 +1,12 @@
+[user]
+	name = Carric Dooley
+	email = carric@cloudraider.io
+[init]
+	defaultBranch = main
+[core]
+	editor = vim
+	autocrlf = input
+[pull]
+	rebase = true
+[color]
+	ui = true

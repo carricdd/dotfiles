@@ -1,0 +1,13 @@
+a{{- if eq .chezmoi.hostname "MacBook-Pro" }}
+# High-performance settings for desktop
+export MEMORY_LIMIT=60GB
+export PARALLEL_JOBS=16
+{{- else if eq .chezmoi.hostname "MacBook-Air" }}
+# Battery-optimized settings for travel
+export MEMORY_LIMIT=20GB
+export PARALLEL_JOBS=8
+{{- end }}
+
+# Common settings for both machines
+export EDITOR=vim
+
