@@ -1,0 +1,57 @@
+Host *
+ForwardAgent yes
+ForwardX11 yes
+ForwardX11Trusted yes
+PubkeyAuthentication yes
+
+Host nc-host
+HostName 68.65.122.50
+User inderejp
+Port 21098
+
+Host mjollnier
+HostName 192.168.50.115
+PubkeyAuthentication yes
+User carric
+
+Host odin
+Hostname 192.168.254.27
+User carric
+
+Host rbpi
+Hostname 192.168.50.163
+User carric
+
+Host fenris
+Hostname 192.168.254.56
+User carric
+
+Host cr-vultr01
+    Hostname 155.138.199.82
+    User carric
+    LocalForward 9392 127.0.0.1:9392
+
+
+# TensorFlow pen testing
+Host stealth-a
+Hostname 64.139.222.202
+User stealth-a
+
+Host stealth-b
+Hostname 64.139.222.203
+User stealth-b
+
+host tensor-kali
+Hostname 64.139.222.204
+User stealth
+
+
+host rhel
+Hostname 192.168.0.251
+User carric
+
+
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_github
