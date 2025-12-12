@@ -1,0 +1,155 @@
+{
+  "projects": {
+    "cloudraider": {
+      "path": "$HOME/CloudRaider",
+      "type": "python",
+      "start": "python main.py",
+      "env": ".env",
+      "ports": [
+        8000,
+        8001
+      ],
+      "dependencies": [
+        "python3",
+        "pip",
+        "venv"
+      ]
+    },
+    "claude-agents": {
+      "path": "$HOME/.claude/agents",
+      "type": "bash",
+      "start": "bash",
+      "env": null,
+      "ports": [],
+      "dependencies": [
+        "bash",
+        "jq",
+        "rsync"
+      ]
+    },
+    "cloudraider-capacity-framework": {
+      "path": "/Users/carric/projects/cloudraider-capacity-framework",
+      "type": "python",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "ExchangeOnline": {
+      "path": "/Users/carric/projects/ExchangeOnline",
+      "type": "python",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "CloudRaider-AgentOrchestration": {
+      "path": "/Users/carric/projects/CloudRaider-AgentOrchestration",
+      "type": "python",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "CLOUDRAIDER_DASHBOARD_HUB": {
+      "path": "/Users/carric/projects/CLOUDRAIDER_DASHBOARD_HUB",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "cloudraider-service-mesh": {
+      "path": "/Users/carric/projects/cloudraider-service-mesh",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "Mimir": {
+      "path": "/Users/carric/projects/Mimir",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "microsoft-graph-security-mcp": {
+      "path": "/Users/carric/projects/microsoft-graph-security-mcp",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "CloudRaiderPlatform": {
+      "path": "/Users/carric/projects/CloudRaiderPlatform",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "Q-Analyzer": {
+      "path": "/Users/carric/projects/Q-Analyzer",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "Dolon": {
+      "path": "/Users/carric/projects/Dolon",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "VIP-Tracker": {
+      "path": "/Users/carric/projects/VIP-Tracker",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "projects": {
+      "path": "/Users/carric/projects",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    },
+    "cloudraider-monorepo": {
+      "path": "/Users/carric/projects/cloudraider-monorepo",
+      "type": "node",
+      "start": null,
+      "env": null,
+      "ports": [],
+      "dependencies": []
+    }
+  },
+  "templates": {
+    "python": {
+      "setup": "python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt",
+      "start": "source .venv/bin/activate && python main.py",
+      "test": "pytest",
+      "lint": "black . && flake8"
+    },
+    "node": {
+      "setup": "npm install",
+      "start": "npm start",
+      "test": "npm test",
+      "build": "npm run build"
+    },
+    "go": {
+      "setup": "go mod download",
+      "start": "go run .",
+      "test": "go test ./...",
+      "build": "go build"
+    }
+  }
+}

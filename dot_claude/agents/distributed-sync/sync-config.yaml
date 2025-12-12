@@ -1,0 +1,46 @@
+# Distributed Sync Configuration
+version: 1.0
+
+hosts:
+  primary: Mac01.local
+  secondary: mac00
+
+sync_paths:
+  - name: cloudraider
+    path: $HOME/CloudRaider
+    exclude:
+      - .git/objects
+      - node_modules
+      - __pycache__
+      - "*.pyc"
+      - .DS_Store
+      - .venv
+      - venv
+
+  - name: claude_agents
+    path: $HOME/.claude/agents
+    exclude:
+      - "*.log"
+      - "*.pid"
+
+  - name: projects
+    path: $HOME/projects
+    exclude:
+      - node_modules
+      - dist
+      - build
+
+settings:
+  realtime_sync: true
+  conflict_resolution: keep_both
+  sync_interval: 5
+  compression: true
+  preserve_permissions: true
+  preserve_timestamps: true
+
+features:
+  git_sync: true
+  database_sync: false
+  environment_sync: true
+  port_forwarding: true
+  session_handoff: true

@@ -1,0 +1,461 @@
+{
+  "version": "3.0",
+  "lastUpdated": "2025-11-28",
+  "notes": "Aligned with CloudRaider mesh (90 cores, 296GB RAM, 3 GPUs), CRAOF routing, and DS-STAR framework",
+  "sourceOfTruth": {
+    "mesh": "~/.claude/mesh/topology.json",
+    "craof": "CloudRaider-Portal/CRAOF-TRAINING-GUIDE.md",
+    "dsstar": "CloudRaider-Portal/docs/DS-STAR-INTEGRATION-GUIDE.md"
+  },
+  "tiers": {
+    "tier1": {
+      "name": "Core Agents (Always Load)",
+      "usage": "80-100% of sessions",
+      "tokenCost": 420,
+      "agents": [
+        {
+          "name": "fullstack-dev",
+          "description": "Node.js, PowerShell, TypeScript development",
+          "category": "Development",
+          "usage": 95,
+          "tokens": 32
+        },
+        {
+          "name": "devops-sre-agent",
+          "description": "Azure operations, deployment, infrastructure",
+          "category": "Infrastructure",
+          "usage": 90,
+          "tokens": 35
+        },
+        {
+          "name": "security-engineer",
+          "description": "Security implementation, assessments",
+          "category": "Security",
+          "usage": 85,
+          "tokens": 28
+        },
+        {
+          "name": "incident-response-agent",
+          "description": "Active incident management, IVAM methodology",
+          "category": "Security",
+          "usage": 80,
+          "tokens": 30
+        },
+        {
+          "name": "data-pipeline-agent",
+          "description": "Threat intel imports, ETL, data processing",
+          "category": "Intelligence",
+          "usage": 80,
+          "tokens": 33
+        },
+        {
+          "name": "database-orchestrator",
+          "description": "Supabase operations, schema management",
+          "category": "Infrastructure",
+          "usage": 75,
+          "tokens": 25
+        },
+        {
+          "name": "observability-agent",
+          "description": "Monitoring, metrics, KPI tracking, job health",
+          "category": "Intelligence",
+          "usage": 75,
+          "tokens": 30
+        },
+        {
+          "name": "memory-persistence-agent",
+          "description": "Session continuity, CRAOF memory, knowledge retention",
+          "category": "Intelligence",
+          "usage": 70,
+          "tokens": 28
+        },
+        {
+          "name": "compliance-automation-agent",
+          "description": "HIPAA, CJIS, SOC2 compliance",
+          "category": "Security",
+          "usage": 70,
+          "tokens": 40
+        },
+        {
+          "name": "strategic-advisor-agent",
+          "description": "Executive guidance, business intelligence",
+          "category": "Leadership",
+          "usage": 65,
+          "tokens": 32
+        },
+        {
+          "name": "technical-writer-agent",
+          "description": "Documentation, incident reports (SimonMed standard)",
+          "category": "Documentation",
+          "usage": 60,
+          "tokens": 30
+        },
+        {
+          "name": "orchestrator-prime",
+          "description": "Master coordinator for complex workflows, CRAOF routing",
+          "category": "Orchestration",
+          "usage": 55,
+          "tokens": 27
+        },
+        {
+          "name": "data-scientist-enhanced",
+          "description": "DS-STAR iterative analysis, verification loops, multi-format data",
+          "category": "Intelligence",
+          "usage": 50,
+          "tokens": 30
+        }
+      ]
+    },
+    "tier2": {
+      "name": "Mesh & Situational Agents (Load on Demand)",
+      "usage": "20-80% of sessions",
+      "tokenCost": 350,
+      "weightedCost": 110,
+      "agents": [
+        {
+          "name": "mesh-intelligence-orchestrator",
+          "description": "Distributed mesh coordination, load balancing across 8 nodes",
+          "category": "Infrastructure",
+          "usage": 45,
+          "tokens": 35,
+          "triggers": ["mesh", "distributed", "node", "gpu task", "heavy compute"],
+          "meshAware": true,
+          "topologyRef": "~/.claude/mesh/topology.json"
+        },
+        {
+          "name": "resource-cluster-manager",
+          "description": "Hardware-aware orchestration - 90 cores, 296GB RAM, 3 GPUs",
+          "category": "Infrastructure",
+          "usage": 40,
+          "tokens": 32,
+          "triggers": ["cluster", "resource", "gpu", "cuda", "workload"],
+          "meshAware": true
+        },
+        {
+          "name": "research-analyst",
+          "description": "Deep threat intel research, incident analysis",
+          "category": "Intelligence",
+          "usage": 50,
+          "tokens": 28,
+          "triggers": ["research", "investigate", "analyze incident", "threat intel"]
+        },
+        {
+          "name": "customer-success-agent",
+          "description": "Customer health, retention metrics",
+          "category": "Intelligence",
+          "usage": 40,
+          "tokens": 32,
+          "triggers": ["customer health", "retention", "churn", "satisfaction"]
+        },
+        {
+          "name": "security-frameworks",
+          "description": "Compliance frameworks, audits",
+          "category": "Security",
+          "usage": 35,
+          "tokens": 25,
+          "triggers": ["compliance", "audit", "framework", "CIS", "NIST", "HIPAA"]
+        },
+        {
+          "name": "platform-engineer",
+          "description": "Infrastructure design, architecture",
+          "category": "Infrastructure",
+          "usage": 30,
+          "tokens": 30,
+          "triggers": ["architecture", "infrastructure design", "platform"]
+        },
+        {
+          "name": "continuous-improvement-agent",
+          "description": "Process optimization, lessons learned, CRAOF self-improvement",
+          "category": "Intelligence",
+          "usage": 30,
+          "tokens": 28,
+          "triggers": ["optimize", "improve", "lessons learned", "pattern"]
+        },
+        {
+          "name": "qa-automation-agent",
+          "description": "Testing, quality assurance",
+          "category": "Development",
+          "usage": 25,
+          "tokens": 30,
+          "triggers": ["test", "qa", "quality", "testing", "validation"]
+        },
+        {
+          "name": "project-orchestrator",
+          "description": "Multi-phase projects, complex coordination",
+          "category": "Orchestration",
+          "usage": 25,
+          "tokens": 22,
+          "triggers": ["project plan", "multi-phase", "roadmap", "milestone"]
+        },
+        {
+          "name": "penetration-tester",
+          "description": "Security assessments, pen tests",
+          "category": "Security",
+          "usage": 15,
+          "tokens": 28,
+          "triggers": ["penetration test", "pen test", "security assessment", "vulnerability scan"]
+        },
+        {
+          "name": "content-orchestrator",
+          "description": "M365 content management",
+          "category": "Orchestration",
+          "usage": 15,
+          "tokens": 30,
+          "triggers": ["M365 content", "SharePoint", "OneDrive", "document management"]
+        }
+      ]
+    },
+    "tier3": {
+      "name": "Specialized Agents (Explicit Load Only)",
+      "usage": "<20% of sessions",
+      "tokenCost": 240,
+      "weightedCost": 15,
+      "agents": [
+        {
+          "name": "kubernetes-specialist",
+          "description": "K8s, container orchestration - Vultr cluster management",
+          "category": "Infrastructure",
+          "usage": 10,
+          "tokens": 30,
+          "triggers": ["kubernetes", "k8s", "container orchestration", "helm", "vultr"],
+          "meshAware": true
+        },
+        {
+          "name": "mesh-discovery-coordinator",
+          "description": "Node discovery, health checks, topology updates",
+          "category": "Infrastructure",
+          "usage": 10,
+          "tokens": 28,
+          "triggers": ["discover nodes", "mesh health", "topology update"],
+          "meshAware": true
+        },
+        {
+          "name": "distributed-load-balancer",
+          "description": "Task distribution across mac01/mac00/mac03/loki/ymir",
+          "category": "Infrastructure",
+          "usage": 10,
+          "tokens": 25,
+          "triggers": ["load balance", "distribute task", "workload routing"],
+          "meshAware": true
+        },
+        {
+          "name": "mcp-protocol-manager",
+          "description": "Agent communication protocol",
+          "category": "Infrastructure",
+          "usage": 5,
+          "tokens": 25,
+          "triggers": ["MCP", "agent protocol", "agent communication"]
+        },
+        {
+          "name": "finops-agent",
+          "description": "Cost optimization, cloud spending - $90/mo mesh vs $6400/mo cloud",
+          "category": "Intelligence",
+          "usage": 5,
+          "tokens": 30,
+          "triggers": ["cost optimization", "cloud spending", "finops", "budget"]
+        },
+        {
+          "name": "frontend-dev",
+          "description": "React, UI components",
+          "category": "Development",
+          "usage": 5,
+          "tokens": 25,
+          "triggers": ["React", "UI components", "frontend only"]
+        },
+        {
+          "name": "backend-dev",
+          "description": "API design, backend architecture",
+          "category": "Development",
+          "usage": 5,
+          "tokens": 28,
+          "triggers": ["backend only", "API architecture"]
+        },
+        {
+          "name": "api-designer",
+          "description": "OpenAPI, GraphQL",
+          "category": "Development",
+          "usage": 3,
+          "tokens": 22,
+          "triggers": ["OpenAPI", "GraphQL", "API design"]
+        }
+      ]
+    },
+    "archive": {
+      "name": "Archived Agents (Truly Unused)",
+      "reason": "0% usage AND no applicable use case",
+      "agents": [
+        {
+          "name": "ui-designer",
+          "reason": "No UI design work (dark theme standard hardcoded)",
+          "consolidatedInto": null
+        },
+        {
+          "name": "websocket-engineer",
+          "reason": "No real-time features currently needed",
+          "consolidatedInto": null
+        },
+        {
+          "name": "ai-engineer",
+          "reason": "No ML/AI model training work",
+          "consolidatedInto": null
+        },
+        {
+          "name": "microservices-dev",
+          "reason": "Monolith architecture, no microservices",
+          "consolidatedInto": null
+        },
+        {
+          "name": "mcp-developer",
+          "reason": "MCP work minimal",
+          "consolidatedInto": "mcp-protocol-manager"
+        },
+        {
+          "name": "pattern-recognition-agent",
+          "reason": "Functionality merged",
+          "consolidatedInto": "continuous-improvement-agent"
+        },
+        {
+          "name": "knowledge-graph-agent",
+          "reason": "Database IS the knowledge graph (Supabase)",
+          "consolidatedInto": "database-orchestrator"
+        },
+        {
+          "name": "agent-health-monitor",
+          "reason": "Functionality merged",
+          "consolidatedInto": "observability-agent"
+        },
+        {
+          "name": "trend-analyst",
+          "reason": "Functionality merged",
+          "consolidatedInto": "research-analyst"
+        },
+        {
+          "name": "indydevdan",
+          "reason": "Philosophy agent, rarely consulted",
+          "consolidatedInto": null
+        },
+        {
+          "name": "executive-assistant-ai",
+          "reason": "Functionality merged",
+          "consolidatedInto": "strategic-advisor-agent"
+        },
+        {
+          "name": "trust-security-agent",
+          "reason": "Functionality merged",
+          "consolidatedInto": "security-engineer"
+        },
+        {
+          "name": "playbook-intelligence-orchestrator",
+          "reason": "Playbooks in CLAUDE.md and SOCPlaybooks component",
+          "consolidatedInto": null
+        },
+        {
+          "name": "cross-platform-deployment-research-2025",
+          "reason": "Reference document only",
+          "consolidatedInto": null
+        },
+        {
+          "name": "microsoft-google-integration-research-2025",
+          "reason": "Reference document only",
+          "consolidatedInto": null
+        }
+      ]
+    }
+  },
+  "frameworks": {
+    "craof": {
+      "description": "CloudRaider Adaptive Operations Framework - routes to best approach",
+      "components": [
+        "craof-controller.cjs - Main router",
+        "craof-command-memory.cjs - Command recall",
+        "craof-multi-llm-orchestrator.cjs - LLM routing",
+        "craof-self-improvement.cjs - Pattern learning"
+      ],
+      "routing": {
+        "data-analysis": "DS-STAR",
+        "security-incident": "IVAM",
+        "automation": "SOAR",
+        "research": "Multi-LLM (Perplexity primary)"
+      }
+    },
+    "dsstar": {
+      "description": "Data Science Self-Training and Adaptive Refinement",
+      "agents": ["Planner", "Coder", "Verifier", "Router"],
+      "benefits": ["69% faster analysis", "87% accuracy improvement", "15+ data formats"],
+      "primaryAgent": "data-scientist-enhanced"
+    },
+    "mesh": {
+      "description": "Distributed compute mesh - $75,720/year savings vs cloud",
+      "topologyFile": "~/.claude/mesh/topology.json",
+      "totals": {
+        "nodes": 8,
+        "cpuCores": 90,
+        "ramGB": 296,
+        "gpus": 3
+      },
+      "taskRouting": {
+        "heavyCPU": ["ymir", "mac00", "mac03", "loki"],
+        "cudaGPU": ["loki", "ymir"],
+        "appleGPU": ["mac00"],
+        "quickTasks": ["mac01"],
+        "cloudEndpoint": ["cr-vultr01"],
+        "kubernetes": ["k8s-node1", "k8s-node2"]
+      }
+    }
+  },
+  "sessionTypes": {
+    "soc-operations": {
+      "description": "SOC-as-a-Service, incident response, threat hunting",
+      "frequency": 60,
+      "craofRoute": "IVAM",
+      "requiredTier1": ["fullstack-dev", "security-engineer", "incident-response-agent", "data-pipeline-agent", "database-orchestrator", "observability-agent"],
+      "recommendedTier2": ["research-analyst"],
+      "keywords": ["incident", "ransomware", "threat", "alert", "security event", "compromise", "breach"]
+    },
+    "customer-assessment": {
+      "description": "M365 audits, vulnerability assessments, compliance",
+      "frequency": 20,
+      "craofRoute": "DS-STAR",
+      "requiredTier1": ["fullstack-dev", "security-engineer", "data-pipeline-agent", "database-orchestrator", "compliance-automation-agent", "technical-writer-agent", "data-scientist-enhanced"],
+      "recommendedTier2": ["research-analyst", "security-frameworks"],
+      "keywords": ["assessment", "M365", "compliance", "audit", "vulnerability", "Tanium", "SentinelOne"]
+    },
+    "development": {
+      "description": "Portal features, dashboard updates, automation scripts",
+      "frequency": 15,
+      "requiredTier1": ["fullstack-dev", "devops-sre-agent", "database-orchestrator", "observability-agent"],
+      "recommendedTier2": ["qa-automation-agent"],
+      "keywords": ["dashboard", "React", "TypeScript", "feature", "component", "build", "deploy"]
+    },
+    "distributed-compute": {
+      "description": "Heavy compute tasks leveraging mesh infrastructure",
+      "frequency": 10,
+      "requiredTier1": ["devops-sre-agent", "orchestrator-prime"],
+      "requiredTier2": ["mesh-intelligence-orchestrator", "resource-cluster-manager"],
+      "recommendedTier3": ["distributed-load-balancer", "kubernetes-specialist"],
+      "keywords": ["gpu", "cuda", "distributed", "mesh", "parallel", "heavy compute", "cluster"]
+    },
+    "executive-intelligence": {
+      "description": "Breach research, threat landscape reports (SimonMed standard)",
+      "frequency": 5,
+      "craofRoute": "Multi-LLM",
+      "requiredTier1": ["strategic-advisor-agent", "technical-writer-agent", "data-pipeline-agent"],
+      "recommendedTier2": ["research-analyst"],
+      "keywords": ["executive", "breach research", "threat landscape", "report", "executive summary"]
+    }
+  },
+  "statistics": {
+    "totalAgents": 41,
+    "tier1Count": 13,
+    "tier2Count": 11,
+    "tier3Count": 8,
+    "archivedCount": 15,
+    "meshAgentsRestored": 4,
+    "tokenSavings": {
+      "before": 1500,
+      "tier1Only": 420,
+      "weightedAverage": 545,
+      "savingsPercent": 64
+    }
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "_metadata": {
+    "version": "3.2",
+    "lastUpdated": "2025-12-01",
+    "updatedBy": "Opus 4.5 - Consolidation from MESH_GOSPEL, mesh_topology_permanent, and distributed-sandbox-orchestrator",
+    "description": "SINGLE SOURCE OF TRUTH for CloudRaider distributed mesh infrastructure",
+    "previousFiles": [
+      "~/.claude/MESH_GOSPEL.md (Oct 15, 2025) - ARCHIVED",
+      "~/.claude/mesh_topology_permanent.json (Oct 20, 2025) - ARCHIVED",
+      "modules/distributed-sandbox-orchestrator/MESH-INFRASTRUCTURE.md (Nov 24, 2025) - SUPERSEDED"
+    ]
+  },
+
+  "totals": {
+    "nodesActive": 7,
+    "nodesOffline": 1,
+    "cpuCores": 90,
+    "cpuCoresPotential": 90,
+    "ramGB": 296,
+    "ramGBPotential": 296,
+    "gpusActive": 3,
+    "gpusPotential": 3,
+    "storageActiveTB": 14.0,
+    "monthlyCloudEquivalent": 6400,
+    "monthlyCost": 90,
+    "annualSavings": 75720
+  },
+
+  "nodes": {
+    "mac01": {
+      "name": "Mac01 (Control Node)",
+      "sshAlias": "localhost",
+      "sshCommand": null,
+      "hostname": "mac01.local",
+      "user": "carric",
+      "type": "macos",
+      "location": "local",
+      "role": "control",
+      "specs": {
+        "cpu": "Apple M4",
+        "cores": 10,
+        "threads": 10,
+        "ramGB": 24,
+        "storageTB": 0.5,
+        "gpu": null
+      },
+      "software": {
+        "os": "macOS Sequoia",
+        "geminiInstalled": true,
+        "geminiPath": "/opt/homebrew/bin/gemini",
+        "nodeInstalled": true,
+        "pythonInstalled": true,
+        "kubectlAccess": true
+      },
+      "status": "active",
+      "lastVerified": "2025-11-26"
+    },
+
+    "mac00": {
+      "name": "Mac00 (M3 Max - Heavy Compute)",
+      "sshAlias": "mac00",
+      "sshCommand": "ssh mac00",
+      "hostname": "mac00.local",
+      "user": "carric",
+      "type": "macos",
+      "location": "local",
+      "role": "compute",
+      "specs": {
+        "cpu": "Apple M3 Max",
+        "cores": 16,
+        "threads": 16,
+        "ramGB": 64,
+        "storageTB": 1.8,
+        "gpu": "Apple M3 Max 40-core GPU",
+        "gpuMemoryGB": 64,
+        "gpuType": "unified"
+      },
+      "software": {
+        "os": "macOS Sequoia 26.1",
+        "geminiInstalled": true,
+        "geminiPath": "/opt/homebrew/bin/gemini",
+        "geminiVersion": "0.17.1",
+        "nodeInstalled": true,
+        "pythonInstalled": true,
+        "googleCloudProject": "gemini-cli-469915"
+      },
+      "status": "active",
+      "lastVerified": "2025-11-24",
+      "notes": "Most powerful GPU node. Use SSH alias 'mac00' not IP (DHCP changes)."
+    },
+
+    "mac03": {
+      "name": "Mac03 (Intel MacBook Pro)",
+      "sshAlias": "mac03",
+      "sshCommand": "ssh mac03",
+      "hostname": "mac03.local",
+      "user": "carric",
+      "type": "macos",
+      "location": "local",
+      "role": "compute",
+      "specs": {
+        "cpu": "Intel i9-9980HK",
+        "cores": 16,
+        "threads": 16,
+        "ramGB": 64,
+        "storageTB": 1.8,
+        "gpu": "AMD Radeon Pro 5500M",
+        "gpuMemoryGB": 8,
+        "gpuType": "discrete"
+      },
+      "software": {
+        "os": "macOS Sequoia",
+        "geminiInstalled": true,
+        "geminiPath": "/usr/local/bin/gemini",
+        "geminiVersion": "0.17.1",
+        "nodeInstalled": true,
+        "nodeVersion": "v25.2.1",
+        "nodePath": "/usr/local/bin/node",
+        "nodeNote": "Intel Mac - Homebrew at /usr/local/bin (not /opt/homebrew)",
+        "pythonInstalled": true,
+        "googleCloudProject": "gemini-cli-469915"
+      },
+      "status": "active",
+      "lastVerified": "2025-12-01",
+      "notes": "2019 MacBook Pro 16-inch. Intel Mac uses /usr/local/bin for Homebrew."
+    },
+
+    "loki": {
+      "name": "Loki (Windows Gaming - RTX 4070)",
+      "sshAlias": "loki",
+      "sshCommand": "ssh loki",
+      "hostname": "loki.local",
+      "user": "admin",
+      "type": "windows",
+      "location": "local",
+      "role": "gpu",
+      "specs": {
+        "cpu": "AMD/Intel Gaming CPU",
+        "cores": 16,
+        "threads": 24,
+        "ramGB": 64,
+        "storageTB": 10.0,
+        "gpu": "NVIDIA RTX 4070 Laptop",
+        "gpuMemoryGB": 12,
+        "cudaCores": 4608,
+        "tensorCores": 144,
+        "gpuType": "cuda"
+      },
+      "software": {
+        "os": "Windows 11 Pro",
+        "geminiInstalled": false,
+        "ollamaInstalled": true,
+        "ollamaNote": "Running on localhost only",
+        "nodeInstalled": true,
+        "nodeVersion": "v24.8.0",
+        "pythonInstalled": true,
+        "cudaDriver": "576.57",
+        "chocolateyInstalled": true,
+        "chocolateyVersion": "2.2.2"
+      },
+      "status": "active",
+      "lastVerified": "2025-12-01",
+      "notes": "Best CUDA GPU. Ollama running locally. Chocolatey for package management."
+    },
+
+    "ymir": {
+      "name": "Ymir (Windows Gaming - Most CPU Cores)",
+      "sshAlias": "ymir",
+      "sshCommand": "ssh ymir",
+      "hostname": "ymir.local",
+      "user": "admin",
+      "type": "windows",
+      "location": "local",
+      "role": "cpu",
+      "specs": {
+        "cpu": "AMD/Intel Gaming CPU",
+        "cores": 24,
+        "threads": 32,
+        "ramGB": 64,
+        "storageTB": 3.6,
+        "gpu": "NVIDIA RTX 4060 Laptop",
+        "gpuMemoryGB": 8,
+        "cudaCores": 3072,
+        "tensorCores": 96,
+        "gpuType": "cuda"
+      },
+      "software": {
+        "os": "Windows 11 Pro",
+        "geminiInstalled": false,
+        "nodeInstalled": true,
+        "pythonInstalled": true,
+        "cudaDriver": "580.97",
+        "chocolateyInstalled": true
+      },
+      "status": "active",
+      "lastVerified": "2025-12-01",
+      "notes": "MOST POWERFUL CPU (24 cores). Chocolatey for package management."
+    },
+
+    "cr-vultr01": {
+      "name": "cr-vultr01 (Cloud VPS)",
+      "sshAlias": "vultr",
+      "sshCommand": "ssh vultr",
+      "ip": "155.138.199.82",
+      "user": "carric",
+      "type": "linux",
+      "location": "vultr-cloud",
+      "role": "cloud",
+      "specs": {
+        "cpu": "Intel Xeon",
+        "cores": 4,
+        "threads": 4,
+        "ramGB": 8,
+        "storageTB": 0.169,
+        "gpu": null
+      },
+      "software": {
+        "os": "Ubuntu 22.04.5 LTS",
+        "geminiInstalled": false,
+        "nodeInstalled": true,
+        "pythonInstalled": true
+      },
+      "status": "active",
+      "lastVerified": "2025-11-24",
+      "notes": "Public cloud endpoint. Cannot reach local nodes (NAT). Needs Gemini installation."
+    },
+
+    "k8s-node1": {
+      "name": "Vultr K8s Node 1 (ctip-a3f6eab28bc2)",
+      "sshAlias": null,
+      "sshCommand": null,
+      "ip": "155.138.219.162",
+      "internalIP": "10.6.96.4",
+      "type": "kubernetes",
+      "location": "vultr-k8s-atlanta",
+      "role": "container",
+      "specs": {
+        "cores": 4,
+        "threads": 4,
+        "ramGB": 7.75,
+        "ramKi": 8125552,
+        "storageTB": 0.149,
+        "storageKi": 156707496,
+        "gpu": null
+      },
+      "software": {
+        "os": "Ubuntu 24.04.3 LTS",
+        "kernel": "6.8.0-87-generic",
+        "k8sVersion": "v1.34.1",
+        "containerRuntime": "containerd://1.7.25"
+      },
+      "status": "active",
+      "lastVerified": "2025-11-28",
+      "verificationMethod": "kubectl get nodes -o custom-columns"
+    },
+
+    "k8s-node2": {
+      "name": "Vultr K8s Node 2 (ctip-bff83c67f476)",
+      "sshAlias": null,
+      "sshCommand": null,
+      "ip": "144.202.26.150",
+      "internalIP": "10.6.96.7",
+      "type": "kubernetes",
+      "location": "vultr-k8s-atlanta",
+      "role": "container",
+      "specs": {
+        "cores": 4,
+        "threads": 4,
+        "ramGB": 7.75,
+        "ramKi": 8125552,
+        "storageTB": 0.149,
+        "storageKi": 156707496,
+        "gpu": null
+      },
+      "software": {
+        "os": "Ubuntu 24.04.3 LTS",
+        "kernel": "6.8.0-87-generic",
+        "k8sVersion": "v1.34.1",
+        "containerRuntime": "containerd://1.7.25"
+      },
+      "status": "active",
+      "lastVerified": "2025-11-28",
+      "verificationMethod": "kubectl get nodes -o custom-columns"
+    }
+  },
+
+  "kubernetes": {
+    "clusterName": "vke-a99b9f40-2f69-4360-9145-0c97d7d84085",
+    "controlPlane": "https://a99b9f40-2f69-4360-9145-0c97d7d84085.vultr-k8s.com:6443",
+    "namespace": "cloudraider",
+    "kubectlContext": "vke-a99b9f40-2f69-4360-9145-0c97d7d84085",
+    "deployedServices": [],
+    "cronJobs": [],
+    "notes": "Namespace cleaned 2025-11-28. Ready for new deployments when needed."
+  },
+
+  "networkTopology": {
+    "controlNode": "mac01",
+    "localNetwork": "192.168.0.0/24",
+    "canReachCloud": ["mac01"],
+    "canReachLocal": ["mac01", "mac00", "mac03", "loki", "ymir"],
+    "cloudOnly": ["cr-vultr01", "k8s-node1", "k8s-node2"],
+    "note": "Only mac01 can reach both local and cloud nodes. Orchestration must run from mac01."
+  },
+
+  "taskRouting": {
+    "heavyCPU": ["ymir", "mac00", "mac03", "loki"],
+    "cudaGPU": ["loki", "ymir"],
+    "appleGPU": ["mac00"],
+    "cloudEndpoint": ["cr-vultr01"],
+    "containerized": ["k8s-node1", "k8s-node2"],
+    "quickTasks": ["mac01"],
+    "default": "mac01"
+  },
+
+  "instructions": {
+    "forAllSessions": [
+      "1. Load this file at session start",
+      "2. Use SSH aliases (mac00, mac03, loki, ymir, vultr) not IPs",
+      "3. Check node.status before assigning work",
+      "4. Route GPU tasks to loki (CUDA) or mac00 (Apple)",
+      "5. Heavy CPU to ymir (24 cores) when online",
+      "6. DO NOT re-validate unless user explicitly requests"
+    ],
+    "toUpdateThisFile": [
+      "1. User must explicitly request mesh validation",
+      "2. Run health check script to verify nodes",
+      "3. Update lastVerified dates",
+      "4. Increment version number"
+    ]
+  },
+
+  "windowsPackageManagement": {
+    "manager": "Chocolatey",
+    "notes": "Chocolatey is installed on both Windows hosts (Loki, ymir) and WORKS. winget does NOT work on these hosts.",
+    "commands": {
+      "checkOutdated": "choco outdated",
+      "upgradeAll": "choco upgrade all -y",
+      "install": "choco install <package> -y",
+      "search": "choco search <package>",
+      "list": "choco list --local-only"
+    },
+    "updateViaSSH": "ssh loki 'choco upgrade all -y'"
+  }
+}

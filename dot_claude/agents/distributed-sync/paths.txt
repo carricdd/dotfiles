@@ -1,0 +1,3 @@
+cloudraider:/Users/carric/CloudRaider
+claude_agents:/Users/carric/.claude/agents
+projects:/Users/carric/projects
