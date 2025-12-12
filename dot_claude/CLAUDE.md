@@ -158,3 +158,5 @@ This displays:
 Detailed docs at `~/.claude/docs/`:
 - `MESH-REFERENCE.md` - Full node specs, task routing
 - `AGENT-REFERENCE.md` - 3-tier agent loading system
+
+# SYNC TEST: 2025-12-12 14:21:13 from mac01
