@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 /**
- * Daily Activity Tracker v1.0
+ * Daily Activity Tracker v2.0
  *
  * Tracks app usage from macOS Knowledge database,
  * extracts Claude Code session topics, and generates
  * daily productivity reports.
+ *
+ * Now saves to K8s PostgreSQL for trend analysis.
  *
  * Usage: node ~/.claude/scripts/daily-activity-tracker.cjs [date]
  *        date format: YYYY-MM-DD (defaults to today)
@@ -19,6 +21,15 @@ const os = require('os');
 const KNOWLEDGE_DB = path.join(os.homedir(), 'Library/Application Support/Knowledge/knowledgeC.db');
 const HISTORY_FILE = path.join(os.homedir(), '.claude/history.jsonl');
 const OUTPUT_DIR = path.join(os.homedir(), '.claude/activity-logs');
+
+// K8s PostgreSQL config (from ~/.zsh_env)
+const PG_CONFIG = {
+    host: '127.0.0.1',
+    port: 5433,
+    user: 'cloudraider',
+    password: 'UdzWZbzHTYTw4WSak48PZgXpFcRZ1Nt9',
+    database: 'cloudraider'
+};
 
 // App category mappings
 const APP_CATEGORIES = {
@@ -277,12 +288,77 @@ class DailyActivityTracker {
         // Save to file
         const outputPath = path.join(OUTPUT_DIR, `${this.targetDate}.json`);
         fs.writeFileSync(outputPath, JSON.stringify(report, null, 2));
-        console.log(`✅ Report saved to: ${outputPath}\n`);
+        console.log(`✅ Report saved to: ${outputPath}`);
+
+        // Save to K8s PostgreSQL
+        this.saveToDatabase(report);
 
         // Print summary
         this.printSummary(report);
 
         return report;
+    }
+
+    // Save to K8s PostgreSQL for trend analysis
+    saveToDatabase(report) {
+        const m = report.metrics;
+
+        // Build category map for JSONB
+        const categoryMap = {};
+        for (const cat of report.byCategory) {
+            categoryMap[cat.category] = { minutes: cat.minutes, sessions: cat.sessions };
+        }
+
+        // Escape strings for SQL (double single quotes)
+        const escape = (str) => str ? str.replace(/'/g, "''") : '';
+
+        const sql = `
+INSERT INTO activity_daily (
+    date, total_minutes, productive_minutes, communication_minutes,
+    phone_minutes, claude_sessions, claude_messages,
+    by_category, top_apps, claude_topics, node_name
+) VALUES (
+    '${report.date}',
+    ${m.totalTrackedMinutes || 0},
+    ${m.productiveMinutes || 0},
+    ${m.communicationMinutes || 0},
+    ${m.phoneMinutes || 0},
+    ${m.claudeCodeSessions || 0},
+    ${m.claudeCodeMessages || 0},
+    '${escape(JSON.stringify(categoryMap))}',
+    '${escape(JSON.stringify(report.topApps.slice(0, 10)))}',
+    '${escape(JSON.stringify(report.claudeSessions))}',
+    '${os.hostname().split('.')[0]}'
+)
+ON CONFLICT (date) DO UPDATE SET
+    total_minutes = EXCLUDED.total_minutes,
+    productive_minutes = EXCLUDED.productive_minutes,
+    communication_minutes = EXCLUDED.communication_minutes,
+    phone_minutes = EXCLUDED.phone_minutes,
+    claude_sessions = EXCLUDED.claude_sessions,
+    claude_messages = EXCLUDED.claude_messages,
+    by_category = EXCLUDED.by_category,
+    top_apps = EXCLUDED.top_apps,
+    claude_topics = EXCLUDED.claude_topics,
+    updated_at = NOW();
+`;
+
+        // Write SQL to temp file to avoid shell quoting issues
+        const tmpFile = path.join(os.tmpdir(), `activity-${report.date}.sql`);
+        try {
+            fs.writeFileSync(tmpFile, sql);
+            execSync(
+                `PGPASSWORD="${PG_CONFIG.password}" psql -h ${PG_CONFIG.host} -p ${PG_CONFIG.port} -U ${PG_CONFIG.user} -d ${PG_CONFIG.database} -f "${tmpFile}"`,
+                { encoding: 'utf-8', stdio: 'pipe' }
+            );
+            fs.unlinkSync(tmpFile); // Clean up
+            console.log(`✅ Saved to K8s PostgreSQL\n`);
+        } catch (err) {
+            console.log(`⚠️  Database save failed (port-forward may be down): ${err.message.split('\n')[0]}`);
+            console.log(`   JSON file saved - run manually when DB available\n`);
+            // Clean up temp file on error too
+            try { fs.unlinkSync(tmpFile); } catch (e) {}
+        }
     }
 
     printSummary(report) {
