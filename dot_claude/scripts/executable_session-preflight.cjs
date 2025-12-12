@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * Session Preflight Check v1.0
+ * Session Preflight Check v2.0
  *
  * Run this at the START of every Claude Code session to:
  * 1. Load mesh topology and verify nodes
  * 2. Show last session's performance metrics
  * 3. Remind Claude of MANDATORY execution rules
  * 4. Set baseline for performance comparison
+ * 5. Load relevant memories from Universal Memory System
  *
  * Usage: node ~/.claude/scripts/session-preflight.cjs
  */
@@ -15,6 +16,15 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+
+// Import memory loader
+let UniversalMemoryLoader;
+try {
+    UniversalMemoryLoader = require('./universal-memory-loader.cjs');
+} catch (err) {
+    // Memory loader not available - continue without it
+    UniversalMemoryLoader = null;
+}
 
 const MESH_TOPOLOGY = path.join(os.homedir(), '.claude/mesh/topology.json');
 const PROGRESS_FILE = path.join(os.homedir(), 'Projects/cloudraider/CloudRaider-Portal/progress.md');
@@ -99,6 +109,50 @@ async function main() {
     console.log('  - Sitrep: 12+ agents, <30 seconds');
     console.log('  - Complex analysis: 8+ agents, mesh utilization >60%');
     console.log('  - Simple queries: 3+ parallel where applicable');
+
+    // 5. Load Universal Memory
+    console.log('\n🧠 UNIVERSAL MEMORY');
+    console.log('─'.repeat(40));
+    if (UniversalMemoryLoader) {
+        try {
+            const loader = new UniversalMemoryLoader();
+            const context = await loader.loadMemories();
+
+            // Show memory stats
+            const prefs = context.memories.global_preferences.preferences?.length || 0;
+            const learnings = context.memories.recent_learnings?.length || 0;
+            const projectCtx = context.memories.project_context.contexts?.length || 0;
+            const customerIntel = context.memories.customer_intelligence?.length || 0;
+
+            console.log(`Loaded: ${prefs} preferences, ${learnings} learnings, ${projectCtx} project contexts, ${customerIntel} customer intel`);
+
+            // Show top learnings (most relevant to current session)
+            if (context.memories.recent_learnings?.length > 0) {
+                console.log('\nTop Learnings:');
+                context.memories.recent_learnings.slice(0, 5).forEach((learning, i) => {
+                    const summary = learning.summary?.slice(0, 80) || 'No summary';
+                    console.log(`  ${i + 1}. ${summary}`);
+                });
+            }
+
+            // Show customer intel if any
+            if (context.memories.customer_intelligence?.length > 0) {
+                console.log('\nCustomer Intel:');
+                context.memories.customer_intelligence.slice(0, 3).forEach((intel, i) => {
+                    const summary = intel.summary?.slice(0, 60) || 'No summary';
+                    console.log(`  ${i + 1}. ${summary}`);
+                });
+            }
+
+            console.log(`\n✅ Memory cached at: ~/.claude/memory-cache/latest-session.json`);
+        } catch (err) {
+            console.log(`⚠️  Memory load failed: ${err.message}`);
+            console.log('   Continuing without memory context');
+        }
+    } else {
+        console.log('⚠️  Memory loader not available');
+        console.log('   Run: cd ~/.claude/scripts && npm install');
+    }
 
     console.log('\n' + '═'.repeat(60));
     console.log('  SESSION READY - ENFORCE THESE RULES');
